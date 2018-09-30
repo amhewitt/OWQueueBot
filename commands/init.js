@@ -21,6 +21,7 @@ exports.run = async (client, message, args) => {
     
     console.log(profileUrl + ": scraping");
     let authorSr;
+    let notFound = false;
     
     request({
         method: 'GET',
@@ -33,16 +34,20 @@ exports.run = async (client, message, args) => {
         }
     
         let $ = cheerio.load(body);
-        if ($('.u-align-center').text().includes("Not Found")) return;
+        
+        if ($('.u-align-center').first().text().includes("Not Found")){
+            notFound = true;
+        }
      
-        authorSr = $('div .h5').first().text();
+        if (!isNaN($('div .h5').first().text())) authorSr = $('div .h5').first().text();
         
     });
     setTimeout(() => {
         let authorId = message.author.id;
         let authorServerId = message.guild.id;
         let authorBtag = btag;
-        if(!authorSr) return message.reply("I could not find an SR! Is that account placed?")
+        if (notFound) return message.reply ("I could not find that account's information! Check your spelling.");
+        if (!authorSr) return message.reply("I could not find an SR! Is that account placed?")
     
         // search db for user and guild ids, if there is an item that matches both then return
         console.log("Searching for an existing userid " + authorId.toString() + " in guild " + authorServerId.toString() + ".");
