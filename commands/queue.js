@@ -34,21 +34,21 @@ exports.run = async (client, message, args) => {
                 
                 // BIG IF ENERGY
                 
-                if (userSr < 2500) {
+                if (userSr < (3500 - Threshold)) {
                     upperBound = userSr + Threshold;
                     lowerBound = userSr - Threshold;
-                } else if (userSr < 3000) {
+                } else if (userSr < (3500 - MasterThreshold)) {
                     upperBound = 3499;
                     lowerBound = userSr - Threshold;
                 } else if (userSr < 3500) {
                     upperBound = userSr + MasterThreshold;
                     lowerBound = userSr - Threshold;
-                } else if (userSr < 3650) {
+                } else if (userSr < (4000 - GMThreshold)) {
                     upperBound = 3999;
                     lowerBound = userSr - MasterThreshold;
                 } else if (userSr < 4000) {
                     upperBound = userSr + GMThreshold;
-                    lowerBound = userSr + MasterThreshold;
+                    lowerBound = userSr - MasterThreshold;
                 } else {
                     upperBound = userSr + GMThreshold;
                     lowerBound = userSr - GMThreshold;
