@@ -132,6 +132,6 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "queue",
-    usage: "o!queue, o!queue [battletag]",
-    description: "Returns a list of all the users in the database that you can queue with. If a battletag is specified, returns whether or not you can queue with that specific person, if they exist in the database. First time users should see o!init first."
+    usage: "o!queue, o!queue <battletag>, o!queue <delimiter>",
+    description: "Returns a list of all the users in the database that you can queue with. If a battletag is specified, returns whether or not you can queue with that specific person, if they exist in the database. If an integer delimiter is specified, it will use that where applicable instead of the default values. First time users should see o!init first."
 }

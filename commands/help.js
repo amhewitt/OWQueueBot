@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
             command = client.commands.get(c);
             output += `- ${client.config.prefix}${command.help.name}\n`;
         });
-        output += `\nFor more information, use \`${client.config.prefix}help [command]\`.`;
+        output += `\nFor more information, use \`${client.config.prefix}help <command>\`.`;
         message.channel.send(output);
     } else  {
         let command = args[0];
@@ -22,6 +22,6 @@ exports.run = async (client, message, args) => {
 
 exports.help = {
     name: "help",
-    usage: "o!help, o!help [command]",
+    usage: "o!help, o!help <command>",
     description: "Lists all commands that OWQueueBot can do. You can also specify a command for more information on how to use it."
 }
