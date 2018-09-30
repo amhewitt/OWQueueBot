@@ -12,6 +12,7 @@ exports.run = async (client, message, args) => {
     let profileUrl = "https://playoverwatch.com/en-us/career/pc/"
     let authorSr, btag;
     
+    console.log("Searching for userid " + authorId.toString() + ".");
     Player.findOne( {userId: authorId} , 
                        (err, player) => {
         if (err) {

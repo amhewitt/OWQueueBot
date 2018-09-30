@@ -45,6 +45,7 @@ exports.run = async (client, message, args) => {
         if(!authorSr) return message.reply("I could not find an SR! Is that account placed?")
     
         // search db for user and guild ids, if there is an item that matches both then return
+        console.log("Searching for an existing userid " + authorId.toString() + " in guild " + authorServerId.toString() + ".");
         Player.findOne( {userId: authorId,serverId: authorServerId} , 
                        (err, player) => {
             if(err) {
@@ -52,7 +53,7 @@ exports.run = async (client, message, args) => {
                 return message.reply("I could not insert into the database!");
             }
             if (!player) {
-                console.log("Inserting " + message.author.id.toString() + " from guild id " + message.guild.id.toString() + " into the database.");
+                console.log("No matches found. Inserting " + message.author.id.toString() + " from guild id " + message.guild.id.toString() + " into the database.");
                 
                 const newPlayer = new Player ({
                     _id: mongoose.Types.ObjectId(),

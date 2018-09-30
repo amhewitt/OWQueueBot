@@ -7,7 +7,9 @@ exports.run = async (client, message, args) => {
     });
     
     let authorId = message.author.id;
+    let authorServerId = message.guild.id;
     
+    console.log("Searching for instances of userid " + authorId.toString() + " to remove.");
     Player.findOne( {userId: authorId} , 
                        (err, player) => {
         if(err) {

@@ -11,6 +11,7 @@ exports.run = async (client, message, args) => {
         useNewUrlParser: true
     });
     const authorId = message.author.id;
+    const authorServerId = message.guild.id;
     
     if(!args[0]) {
         
@@ -18,7 +19,8 @@ exports.run = async (client, message, args) => {
         let userSr;
         let lowerBound, upperBound;
         
-        Player.findOne( {userId: authorId} , 
+        console.log("Searching for userid " + authorId.toString() + " in guild " + authorServerId.toString() + ".");
+        Player.findOne( {userId: authorId , serverId: authorServerId} , 
                        (err, player) => {
             if (err) {
                 console.log(err);
@@ -52,7 +54,8 @@ exports.run = async (client, message, args) => {
                     lowerBound = userSr - GMThreshold;
                 }
                 
-                Player.find( { skillRating: { $gte: lowerBound, $lte: upperBound } , userId : { $ne: authorId } }, (err, players) => {
+                console.log("Searching for matches in " + authorServerId.toString() + " between " + lowerBound.toString() + " and " + upperBound.toString() + ".");
+                Player.find( { skillRating: { $gte: lowerBound, $lte: upperBound } , userId : { $ne: authorId } , serverId: authorServerId }, (err, players) => {
                     if (err) {
                         console.log(err);
                         return message.reply("I could not read the database!");
@@ -80,7 +83,8 @@ exports.run = async (client, message, args) => {
         if (otherBtag.indexOf("#") <= 2) return message.reply("that's not a battletag!");
         let userSr, otherSr;
         
-        Player.findOne( {userId: authorId} , 
+        console.log("Searching for userid " + authorId.toString() + " and guild " + authorServerId.toString() + ".");
+        Player.findOne( {userId: authorId, serverId: authorServerId} , 
                        (err, player) => {
             if (err) {
                 console.log(err);
@@ -95,7 +99,8 @@ exports.run = async (client, message, args) => {
                 
                 userSr = player.skillRating;
                 
-                Player.findOne( {battleNet: otherBtag}, 
+                console.log("Searching for matches for " + otherBtag.toString() + " in guild " + authorServerId.toString() + ".");
+                Player.findOne( {battleNet: otherBtag, serverId: authorServerId}, 
                                (err, otherPlayer) => {
                     const compareFail = "you and " + otherBtag + " are too far in SR!";
                     const compareSuccess = "you and " + otherBtag + " are able to queue together!"
