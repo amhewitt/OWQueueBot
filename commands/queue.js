@@ -146,7 +146,9 @@ exports.run = async (client, message, args) => {
                     return message.reply("You're not in the database. Please run \`o!init\` or \`o!help init\` before using this command.");
                 } else {
                     userSr = player.skillRating;
-                
+                console.log("GM Threshold: " + _GMThreshold.toString());
+                console.log("Master Threshold: " + _MasterThreshold.toString());
+                console.log("Threshold: " + _Threshold.toString());
                     // BIG IF ENERGY
                 
                 if (userSr < (3500 - _Threshold)) {

@@ -11,9 +11,9 @@ The bot's prefix is `o!`.
 - `o!init` to log your initial info into the database. You will need to do this once per server, as the bot checks guild ID's in order to return relevant results.
 - `o!sr` to display your current SR as it exists in the database.
 - `o!update` to update your info and SR.
-- `o!queue` to show everybody you can queue with, or `o!queue [battletag]` for a faster check of compatibility between you and one other player in the database.
+- `o!queue` to show everybody you can queue with, `o!queue <delimiter>` to use custom queue limits outside of Blizzard's maximum allowed ones, or `o!queue <battletag>` for a faster check of compatibility between you and one other player in the database.
 - `o!remove` to remove yourself from the database. Note that if you initialized yourself under multiple guilds, this will remove all instances of your userid.
-- `o!help` to get a full listing of commands in server, or `o!help [command]` to get more information on any one command.
+- `o!help` to get a full listing of commands in server, or `o!help <command>` to get more information on any one command.
 
 ### Todo
 - Allow `o!queue` to take up to five arguments representing battletags, returning permutations of who can queue together.
