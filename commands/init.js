@@ -54,7 +54,7 @@ exports.run = async (client, message, args) => {
         Player.findOne( {userId: authorId,serverId: authorServerId} , 
                        (err, player) => {
             if(err) {
-                console.log(err);
+                console.error(err);
                 return message.reply("I could not insert into the database!");
             }
             if (!player) {
@@ -69,7 +69,7 @@ exports.run = async (client, message, args) => {
                 });
                 
                 newPlayer.save().catch(err => {
-                    console.log(err);
+                    console.error(err);
                     return message.reply("I could not insert into the database!");
                 });    
                 console.log("Insert successful.");

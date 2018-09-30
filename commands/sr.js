@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
     Player.findOne( {userId: authorId} , 
                        (err, player) => {
         if(err) {
-            console.log(err);
+            console.error(err);
             return message.reply("I could not read the database!");
         }
         if (!player) {

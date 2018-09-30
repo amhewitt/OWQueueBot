@@ -23,7 +23,7 @@ exports.run = async (client, message, args) => {
         Player.findOne( {userId: authorId , serverId: authorServerId} , 
                        (err, player) => {
             if (err) {
-                console.log(err);
+                console.error(err);
                 return message.reply("I could not read the database!");
             }
         
@@ -57,7 +57,7 @@ exports.run = async (client, message, args) => {
                 console.log("Searching for matches in " + authorServerId.toString() + " between " + lowerBound.toString() + " and " + upperBound.toString() + ".");
                 Player.find( { skillRating: { $gte: lowerBound, $lte: upperBound } , userId : { $ne: authorId } , serverId: authorServerId }, (err, players) => {
                     if (err) {
-                        console.log(err);
+                        console.error(err);
                         return message.reply("I could not read the database!");
                     }
                     
@@ -87,7 +87,7 @@ exports.run = async (client, message, args) => {
         Player.findOne( {userId: authorId, serverId: authorServerId} , 
                        (err, player) => {
             if (err) {
-                console.log(err);
+                console.error(err);
                 return message.reply("I could not read the database!");
             }
         
@@ -106,7 +106,7 @@ exports.run = async (client, message, args) => {
                     const compareSuccess = "you and " + otherBtag + " are able to queue together!"
                     
                     if (err) {
-                        console.log(err);
+                        console.error(err);
                         return message.reply("I could not read the database!")
                     }
                     

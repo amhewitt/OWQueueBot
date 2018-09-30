@@ -13,7 +13,7 @@ exports.run = async (client, message, args) => {
     Player.findOne( {userId: authorId} , 
                        (err, player) => {
         if(err) {
-            console.log(err);
+            console.error(err);
             return message.reply("I could not read the database!");
         }
         if (!player) {
@@ -23,7 +23,7 @@ exports.run = async (client, message, args) => {
             console.log("Removing all instances of user with user id " + authorId + " from the database.");
             Player.deleteMany ( {userId: authorId}, (err) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                     return message.reply("something went wrong while deleting!");
                 }
                 console.log("Remove successful.");

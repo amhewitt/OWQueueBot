@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
     Player.findOne( {userId: authorId} , 
                        (err, player) => {
         if (err) {
-            console.log(err);
+            console.error(err);
             return message.reply("I could not read the database!");
         }
         
@@ -54,7 +54,7 @@ exports.run = async (client, message, args) => {
                 Player.updateMany( {userId: authorId} , {skillRating: authorSr},
                        (err, player) => {
                     if(err) {
-                        console.log(err);
+                        console.error(err);
                         return message.reply("I could not update the database!");
                     } else {
                         console.log("Update successful.")
