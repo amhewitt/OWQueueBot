@@ -66,7 +66,7 @@ exports.run = async (client, message, args) => {
                     } else {
                         let output = ("I found the following players you can queue with:\n");
                         for (let pl of players) {
-                            output += pl.battleNet + ": " + pl.skillRating.toString() + " SR";
+                            output += pl.battleNet + ": " + pl.skillRating.toString() + " SR\n";
                         }
                         return message.reply(output);
                     }
