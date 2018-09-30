@@ -9,6 +9,7 @@ The bot's prefix is `o!`.
 
 ### Commands
 - `o!init` to log your initial info into the database. You will need to do this once per server, as the bot checks guild ID's in order to return relevant results.
+- `o!sr` to display your current SR as it exists in the database.
 - `o!update` to update your info and SR.
 - `o!queue` to show everybody you can queue with, or `o!queue [battletag]` for a faster check of compatibility between you and one other player in the database.
 - `o!remove` to remove yourself from the database. Note that if you initialized yourself under multiple guilds, this will remove all instances of your userid.
