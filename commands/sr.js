@@ -18,7 +18,7 @@ exports.run = async (client, message, args) => {
             return message.reply("I could not read the database!");
         }
         if (!player) {
-            return message.reply("I can't report your SR if you're not in the database!")
+            return message.reply("I can't report your SR if you're not in the database!");
                 
         } else {
             authorSr = player.skillRating;
