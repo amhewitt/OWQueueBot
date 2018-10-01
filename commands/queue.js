@@ -145,47 +145,45 @@ exports.run = async (client, message, args) => {
                 } else {
                     userSr = player.skillRating;
                
-                if (userSr < (3500 - _Threshold)) {
-                    upperBound = userSr + _Threshold;
-                    lowerBound = userSr - _Threshold;
-                } else if (userSr < (3500 - _MasterThreshold)) {
-                    upperBound = 3499;
-                    lowerBound = userSr - _Threshold;
-                } else if (userSr < 3500) {
-                    upperBound = userSr + _MasterThreshold;
-                    lowerBound = userSr - _Threshold;
-                } else if (userSr < (4000 - _GMThreshold)) {
-                    upperBound = 3999;
-                    lowerBound = userSr - _MasterThreshold;
-                } else if (userSr < 4000) {
-                    upperBound = userSr + _GMThreshold;
-                    lowerBound = userSr - _MasterThreshold;
-                } else {
-                    upperBound = userSr + _GMThreshold;
-                    lowerBound = userSr - _GMThreshold;
-                }
-                
-                console.log("Searching for matches in " + authorServerId.toString() + " between " + lowerBound.toString() + " and " + upperBound.toString() + ".");
-                Player.find( { skillRating: { $gte: lowerBound, $lte: upperBound } , userId : { $ne: authorId } , serverId: authorServerId }, (err, players) => {
-                    if (err) {
-                        console.error(err);
-                        return message.reply("I could not read the database!");
-                    }
-                    
-                    if (!players[0]) {
-                        return message.reply("I could not find anyone in the database that you can queue with!");
+                    if (userSr < (3500 - _Threshold)) {
+                        upperBound = userSr + _Threshold;
+                        lowerBound = userSr - _Threshold;
+                    } else if (userSr < (3500 - _MasterThreshold)) {
+                        upperBound = 3499;
+                        lowerBound = userSr - _Threshold;
+                    } else if (userSr < 3500) {
+                        upperBound = userSr + _MasterThreshold;
+                        lowerBound = userSr - _Threshold;
+                    } else if (userSr < (4000 - _GMThreshold)) {
+                        upperBound = 3999;
+                        lowerBound = userSr - _MasterThreshold;
+                    } else if (userSr < 4000) {
+                        upperBound = userSr + _GMThreshold;
+                        lowerBound = userSr - _MasterThreshold;
                     } else {
-                        let output = ("I found the following players you can queue with:\n");
-                        for (let pl of players) {
-                            output += pl.battleNet + ": " + pl.skillRating.toString() + " SR\n";
-                        }
-                        return message.reply(output);
+                        upperBound = userSr + _GMThreshold;
+                        lowerBound = userSr - _GMThreshold;
                     }
-                });
-            }
-        });
-
-
+                
+                    console.log("Searching for matches in " + authorServerId.toString() + " between " + lowerBound.toString() + " and " + upperBound.toString() + ".");
+                    Player.find( { skillRating: { $gte: lowerBound, $lte: upperBound } , userId : { $ne: authorId } , serverId: authorServerId }, (err, players) => {
+                        if (err) {
+                            console.error(err);
+                            return message.reply("I could not read the database!");
+                        }
+                    
+                        if (!players[0]) {
+                            return message.reply("I could not find anyone in the database that you can queue with!");
+                        } else {
+                            let output = ("I found the following players you can queue with:\n");
+                            for (let pl of players) {
+                                output += pl.battleNet + ": " + pl.skillRating.toString() + " SR\n";
+                            }
+                            return message.reply(output);
+                        }
+                    });
+                }
+             });
         }
     }
 };
