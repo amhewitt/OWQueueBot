@@ -114,11 +114,11 @@ exports.run = async (client, message, args) => {
                             otherSr = otherPlayer.skillRating;
                         
                             if (userSr >= 4000 || otherSr >= 4000) {
-                                return abs(userSr - otherSr) > GMThreshold ? message.reply(compareFail) : message.reply(compareSuccess);
+                                return Math.abs(userSr - otherSr) > GMThreshold ? message.reply(compareFail) : message.reply(compareSuccess);
                             } else if (userSr >= 3500 | otherSr >= 3500) {
-                                return abs(userSr - otherSr) > MasterThreshold ? message.reply(compareFail) : message.reply(compareSuccess);
+                                return Math.abs(userSr - otherSr) > MasterThreshold ? message.reply(compareFail) : message.reply(compareSuccess);
                             } else {
-                                 return abs(userSr - otherSr) > Threshold ? message.reply(compareFail) : message.reply(compareSuccess);
+                                return Math.abs(userSr - otherSr) > Threshold ? message.reply(compareFail) : message.reply(compareSuccess);
                             }
                         }
                     });
