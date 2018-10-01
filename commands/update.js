@@ -61,7 +61,7 @@ exports.run = async (client, message, args) => {
                         return message.reply("your data was updated successfully!");
                     }   
                 });     
-            }, 1000); 
+            }, 2000); 
         }
     });
 };
