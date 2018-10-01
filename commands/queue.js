@@ -111,7 +111,7 @@ exports.run = async (client, message, args) => {
                         if (!otherPlayer) {
                             return message.reply("that player isn't in the database!")
                         } else {
-                            otherSr = otherPlater.skillRating;
+                            otherSr = otherPlayer.skillRating;
                         
                             if (userSr >= 4000 || otherSr >= 4000) {
                                 return abs(userSr - otherSr) > GMThreshold ? message.reply(compareFail) : message.reply(compareSuccess);
