@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 exports.run = async (client, message, args) => {
     
-    if(!message.guild.id.toString() === "184804980794851328") return console.log("o!oasis called in non-SRSOC server.");
+    if(!(message.guild.id.toString() === this.help.serverRestriction)) return console.log("Command called in an unallowed server.");
     
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
