@@ -21,7 +21,6 @@ exports.run = async (client, message, args) => {
     
     console.log(profileUrl + ": scraping");
     let authorSr;
-    let notFound = false;
     
     request({
         method: 'GET',
@@ -32,21 +31,33 @@ exports.run = async (client, message, args) => {
             message.reply("an error occured! Perhaps OW is down?");
             return console.error(err);
         }
-    
-        let $ = cheerio.load(body);
-        
-        if ($('.u-align-center').first().text().includes("Not Found")){
-            notFound = true;
+
+        try {
+           
+            let $ = cheerio.load(body);
+            if ($('.u-align-center').first().text().includes("Not Found")) throw "Profile Not Found";
+            if (!isNaN($('div .h5').first().text())) authorSr = $('div .h5').first().text();
+
+        } catch (err) {
+            console.error(err);
+            return message.reply("I could not find that account's information! Check your spelling. Remember that battletags are case-sensitive.")
         }
-     
-        if (!isNaN($('div .h5').first().text())) authorSr = $('div .h5').first().text();
         
     });
     setTimeout(() => {
-        let authorId = message.author.id;
-        let authorServerId = message.guild.id;
+        
+        let authorId, authorServerId;
+
+        try {
+            authorId = message.author.id;
+            authorServerId = message.guild.id;
+        } catch (err) {
+            console.error("ERROR: " + err);
+            return message.reply("something went wrong! Try that command again.");
+        }
+        
         let authorBtag = btag;
-        if (notFound) return message.reply ("I could not find that account's information! Check your spelling.");
+        
         if (!authorSr) return message.reply("I could not find an SR! Is that account placed?")
     
         // search db for user and guild ids, if there is an item that matches both then return

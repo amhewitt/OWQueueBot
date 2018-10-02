@@ -8,10 +8,17 @@ exports.run = async (client, message, args) => {
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
-    const authorId = message.author.id;
-    const authorServerId = message.guild.id;
+
+    let authorId, authorServerId;
+
+    try {
+        authorId = message.author.id;
+        authorServerId = message.guild.id;
+    } catch (err) {
+        console.error("ERROR: " + err);
+        return message.reply("something went wrong! Try that command again.")
+    }
    
-    
     if(!args[0]) {
         
         let userSr;

@@ -9,9 +9,14 @@ exports.run = async (client, message, args) => {
         useNewUrlParser: true
     });
     
-    let authorId = message.author.id;
-    let authorServerId = message.guild.id;
-    let authorSr;
+    let authorId, authorSr;
+
+    try {
+        authorId = message.author.id;
+    } catch (err) {
+        console.error("ERROR: " + err);
+        return message.reply("something went wrong! Try that command again.");
+    }
 
     const GoodQuotesObj = {
         "quote1": "Out of curiosity, how many OWL offers have you turned down?",

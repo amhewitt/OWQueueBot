@@ -5,9 +5,15 @@ exports.run = async (client, message, args) => {
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
+
+    let authorId;
     
-    let authorId = message.author.id;
-    let authorServerId = message.guild.id;
+    try {
+        authorId = message.author.id;
+    } catch (err) {
+        console.error("ERROR: " + err);
+        return message.reply("something went wrong! Try that command again.");
+    }
     
     console.log("Searching for instances of userid " + authorId.toString() + " to remove.");
     Player.findOne( {userId: authorId} , 

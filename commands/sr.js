@@ -6,9 +6,14 @@ exports.run = async (client, message, args) => {
         useNewUrlParser: true
     });
     
-    let authorId = message.author.id;
-    let authorServerId = message.guild.id;
-    let authorSr;
+    let authorId, authorSr;
+
+    try {
+        authorId = message.author.id;
+    } catch (err) {
+        console.error("ERROR: " + err);
+        return message.reply("something went wrong! Try that command again.")
+    }
     
     console.log("Searching for instances of userid " + authorId.toString() + " to read.");
     Player.findOne( {userId: authorId} , 
