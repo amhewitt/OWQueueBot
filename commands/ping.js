@@ -5,5 +5,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "ping",
     usage: "o!ping",
-    description: "A debugging command for sanity reasons. Does nothing other than reply 'pong'. It's very useful, I assure you."
+    description: "A debugging command for sanity reasons. Does nothing other than reply 'pong'. It's very useful, I assure you.",
+    serverRestriction: "457362793188950016"
 }

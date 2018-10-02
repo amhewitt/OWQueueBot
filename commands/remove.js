@@ -36,5 +36,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "remove",
     usage: "o!remove",
-    description: "Removes yourself from the database. If you are signed up under more than one server, all instances of you will be removed."
+    description: "Removes yourself from the database. If you are signed up under more than one server, all instances of you will be removed.",
+    serverRestriction: "none"
 }

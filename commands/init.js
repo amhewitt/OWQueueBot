@@ -85,5 +85,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "init",
     usage: "o!init <battletag>",
-    description: "Adds a user to the queueing database. Specify by battletag."
+    description: "Adds a user to the queueing database. Specify by battletag.",
+    serverRestriction: "none"
 }

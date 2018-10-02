@@ -2,6 +2,9 @@ const Player = require("../models/player.js");
 const mongoose = require("mongoose");
 
 exports.run = async (client, message, args) => {
+    
+    if(!message.guild.id.toString() === "184804980794851328") return console.log("o!oasis called in non-SRSOC server.");
+    
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
@@ -39,5 +42,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "oasis",
     usage: "o!oasis",
-    description: "Let OW Queue Bot's Very Complicated Algorithm tell you where you really belong."
+    description: "Let OW Queue Bot's Very Complicated Algorithm tell you where you really belong.",
+    serverRestriction: "184804980794851328"
 }

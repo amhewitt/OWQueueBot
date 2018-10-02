@@ -30,5 +30,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "sr",
     usage: "o!sr",
-    description: "Returns your current SR as it exists in the database."
+    description: "Returns your current SR as it exists in the database.",
+    serverRestriction: "none"
 }

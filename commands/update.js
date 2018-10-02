@@ -69,5 +69,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "update",
     usage: "o!update",
-    description: "Updates your SR in the database."
+    description: "Updates your SR in the database.",
+    serverRestriction: "none"
 }
