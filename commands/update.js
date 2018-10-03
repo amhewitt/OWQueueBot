@@ -42,7 +42,7 @@ exports.run = async (client, message) => {
                     let $ = cheerio.load(body);
                     
                     if ($('.u-align-center').first().text().includes("Not Found")) reject("not found");
-                    if (isNaN($('div .h5').first().text())) reject("not placed");
+                    if (isNaN($('div .h5').first().text()) || !($('div .h5').first().text())) reject("not placed");
                     let authorSr = $('div .h5').first().text();
                     resolve(authorSr);
                 });
