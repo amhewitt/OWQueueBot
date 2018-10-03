@@ -1,13 +1,19 @@
 const Player = require("../models/player.js");
 const mongoose = require("mongoose");
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
+
+    let authorId;
     
-    let authorId = message.author.id;
-    let authorServerId = message.guild.id;
+    try {
+        authorId = message.author.id;
+    } catch (err) {
+        console.error("ERROR: " + err);
+        return message.reply("something went wrong! Try that command again.");
+    }
     
     console.log("Searching for instances of userid " + authorId.toString() + " to remove.");
     Player.findOne( {userId: authorId} , 
@@ -36,5 +42,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "remove",
     usage: "o!remove",
-    description: "Removes yourself from the database. If you are signed up under more than one server, all instances of you will be removed."
+    description: "Removes yourself from the database. If you are signed up under more than one server, all instances of you will be removed.",
+    serverRestriction: "none"
 }

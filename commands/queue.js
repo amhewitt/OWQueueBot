@@ -8,10 +8,17 @@ exports.run = async (client, message, args) => {
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
-    const authorId = message.author.id;
-    const authorServerId = message.guild.id;
+
+    let authorId, authorServerId;
+
+    try {
+        authorId = message.author.id;
+        authorServerId = message.guild.id;
+    } catch (err) {
+        console.error("ERROR: " + err);
+        return message.reply("something went wrong! Try that command again.")
+    }
    
-    
     if(!args[0]) {
         
         let userSr;
@@ -191,5 +198,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "queue",
     usage: "o!queue, o!queue <battletag>, o!queue <delimiter>",
-    description: "Returns a list of all the users in the database that you can queue with. If a battletag is specified, returns whether or not you can queue with that specific person, if they exist in the database. If an integer delimiter is specified, it will use that where applicable instead of the default values. First time users should see o!init first."
+    description: "Returns a list of all the users in the database that you can queue with. If a battletag is specified, returns whether or not you can queue with that specific person, if they exist in the database. If an integer delimiter is specified, it will use that where applicable instead of the default values. First time users should see o!init first.",
+    serverRestriction: "none"
 }

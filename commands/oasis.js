@@ -1,14 +1,22 @@
 const Player = require("../models/player.js");
 const mongoose = require("mongoose");
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
+    
+    if(!(message.guild.id.toString() === this.help.serverRestriction)) return console.log("Command called in an unallowed server.");
+    
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
     
-    let authorId = message.author.id;
-    let authorServerId = message.guild.id;
-    let authorSr;
+    let authorId, authorSr;
+
+    try {
+        authorId = message.author.id;
+    } catch (err) {
+        console.error("ERROR: " + err);
+        return message.reply("something went wrong! Try that command again.");
+    }
 
     const GoodQuotesObj = {
         "quote1": "Out of curiosity, how many OWL offers have you turned down?",
@@ -39,5 +47,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "oasis",
     usage: "o!oasis",
-    description: "Let OW Queue Bot's Very Complicated Algorithm tell you where you really belong."
+    description: "Let OW Queue Bot's Very Complicated Algorithm tell you where you really belong.",
+    serverRestriction: "184804980794851328"
 }

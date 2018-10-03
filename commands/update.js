@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const request = require("request");
 const cheerio = require("cheerio");
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
@@ -38,30 +38,46 @@ exports.run = async (client, message, args) => {
                     return console.error(err);
                 }
     
-                let $ = cheerio.load(body);
-                if ($('.u-align-center').text().includes("Not Found")) return;
-     
-                authorSr = $('div .h5').first().text();
+                const srFetch = new Promise((resolve, reject) => {
+                    let $ = cheerio.load(body);
+                    
+                    if ($('.u-align-center').first().text().includes("Not Found")) reject("not found");
+                    if (isNaN($('div .h5').first().text())) reject("not placed");
+                    let authorSr = $('div .h5').first().text();
+                    resolve(authorSr);
+                });
         
-            });
-            let authorBtag = btag;
-    
-            setTimeout(() => {
-                if(!authorSr) return message.reply("I could not find an SR! Is that account placed?")
+                srFetch.then((authorSr) => {
+                    let authorId, authorServerId;
         
-                console.log("Updating records for user " + message.author.id.toString() + ".");
+                    try {
+                        authorId = message.author.id;
+                        authorServerId = message.guild.id;
+                    } catch (err) {
+                        console.error("ERROR: " + err);
+                        return message.reply("something went wrong! Try that command again.");
+                    }
+                
+                    let authorBtag = btag;
+                    console.log("Updating records for user " + message.author.id.toString() + ".");
     
-                Player.updateMany( {userId: authorId} , {skillRating: authorSr},
-                       (err, player) => {
-                    if(err) {
-                        console.error(err);
-                        return message.reply("I could not update the database!");
-                    } else {
-                        console.log("Update successful.")
-                        return message.reply("your data was updated successfully!");
-                    }   
-                });     
-            }, 2000); 
+                    Player.updateMany( {userId: authorId} , {skillRating: authorSr},
+                           (err) => {
+                        if(err) {
+                            console.error(err);
+                            return message.reply("I could not update the database!");
+                        } else {
+                            console.log("Update successful.")
+                            return message.reply("your data was updated successfully!");
+                        }   
+                    }); 
+                });
+
+                srFetch.catch((err) => {
+                    if (err === "not placed") return message.reply("I could not find an SR! Is that account placed?");
+                     if (err === "not found") return message.reply("I could not find an account! Please check your spelling.");
+                });
+            });   
         }
     });
 };
@@ -69,5 +85,6 @@ exports.run = async (client, message, args) => {
 exports.help = {
     name: "update",
     usage: "o!update",
-    description: "Updates your SR in the database."
+    description: "Updates your SR in the database.",
+    serverRestriction: "none"
 }
