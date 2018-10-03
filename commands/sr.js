@@ -1,7 +1,7 @@
 const Player = require("../models/player.js");
 const mongoose = require("mongoose");
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });

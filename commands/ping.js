@@ -1,4 +1,4 @@
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
     if(!(message.guild.id.toString() === this.help.serverRestriction)) return console.log("Command called in an unallowed server.");
     message.channel.send('pong').catch(console.error);
 };

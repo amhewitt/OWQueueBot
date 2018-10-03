@@ -36,7 +36,10 @@ exports.run = async (client, message, args) => {
            
             let $ = cheerio.load(body);
             if ($('.u-align-center').first().text().includes("Not Found")) throw "Profile Not Found";
-            if (!isNaN($('div .h5').first().text())) authorSr = $('div .h5').first().text();
+            if (!isNaN($('div .h5').first().text())) {
+                authorSr = $('div .h5').first().text();
+                console.log("Found an SR: " + authorSr.toString());
+            }
 
         } catch (err) {
             console.error(err);

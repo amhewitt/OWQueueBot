@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const request = require("request");
 const cheerio = require("cheerio");
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message) => {
     mongoose.connect(client.config.db, {
         useNewUrlParser: true
     });
@@ -38,13 +38,21 @@ exports.run = async (client, message, args) => {
                     return console.error(err);
                 }
     
-                let $ = cheerio.load(body);
-                if ($('.u-align-center').text().includes("Not Found")) return;
-     
-                authorSr = $('div .h5').first().text();
+                try {
+           
+                    let $ = cheerio.load(body);
+                    if ($('.u-align-center').first().text().includes("Not Found")) throw "Profile Not Found";
+                    if (!isNaN($('div .h5').first().text())) {
+                        authorSr = $('div .h5').first().text();
+                        console.log("Found an SR: " + authorSr.toString());
+                    }
+        
+                } catch (err) {
+                    console.error(err);
+                    return message.reply("I could not find that account's information! Check your spelling. Remember that battletags are case-sensitive.")
+                }
         
             });
-            let authorBtag = btag;
     
             setTimeout(() => {
                 if(!authorSr) return message.reply("I could not find an SR! Is that account placed?")
@@ -52,7 +60,7 @@ exports.run = async (client, message, args) => {
                 console.log("Updating records for user " + message.author.id.toString() + ".");
     
                 Player.updateMany( {userId: authorId} , {skillRating: authorSr},
-                       (err, player) => {
+                       (err) => {
                     if(err) {
                         console.error(err);
                         return message.reply("I could not update the database!");
