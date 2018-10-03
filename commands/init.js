@@ -32,68 +32,64 @@ exports.run = async (client, message, args) => {
             return console.error(err);
         }
 
-        try {
-           
+        const srFetch = new Promise((resolve, reject) => {
             let $ = cheerio.load(body);
-            if ($('.u-align-center').first().text().includes("Not Found")) throw "Profile Not Found";
-            if (!isNaN($('div .h5').first().text())) {
-                authorSr = $('div .h5').first().text();
-                console.log("Found an SR: " + authorSr.toString());
+            
+            if ($('.u-align-center').first().text().includes("Not Found")) reject("not found");
+            if (isNaN($('div .h5').first().text())) reject("not placed");
+            let authorSr = $('div .h5').first().text();
+            resolve(authorSr);
+        });
+
+        srFetch.then((authorSr) => {
+            let authorId, authorServerId;
+
+            try {
+                authorId = message.author.id;
+                authorServerId = message.guild.id;
+            } catch (err) {
+                console.error("ERROR: " + err);
+                return message.reply("something went wrong! Try that command again.");
             }
-
-        } catch (err) {
-            console.error(err);
-            return message.reply("I could not find that account's information! Check your spelling. Remember that battletags are case-sensitive.")
-        }
         
-    });
-    setTimeout(() => {
-        
-        let authorId, authorServerId;
-
-        try {
-            authorId = message.author.id;
-            authorServerId = message.guild.id;
-        } catch (err) {
-            console.error("ERROR: " + err);
-            return message.reply("something went wrong! Try that command again.");
-        }
-        
-        let authorBtag = btag;
-        
-        if (!authorSr) return message.reply("I could not find an SR! Is that account placed?")
+            let authorBtag = btag;
     
-        // search db for user and guild ids, if there is an item that matches both then return
-        console.log("Searching for an existing userid " + authorId.toString() + " in guild " + authorServerId.toString() + ".");
-        Player.findOne( {userId: authorId,serverId: authorServerId} , 
-                       (err, player) => {
-            if(err) {
-                console.error(err);
-                return message.reply("I could not insert into the database!");
-            }
-            if (!player) {
-                console.log("No matches found. Inserting " + message.author.id.toString() + " from guild id " + message.guild.id.toString() + " into the database.");
-                
-                const newPlayer = new Player ({
-                    _id: mongoose.Types.ObjectId(),
-                    userId: authorId,
-                    serverId: authorServerId,
-                    battleNet: authorBtag,
-                    skillRating: authorSr
-                });
-                
-                newPlayer.save().catch(err => {
+            // search db for user and guild ids, if there is an item that matches both then return
+            console.log("Searching for an existing userid " + authorId.toString() + " in guild " + authorServerId.toString() + ".");
+            Player.findOne( {userId: authorId,serverId: authorServerId} , 
+                           (err, player) => {
+                if(err) {
                     console.error(err);
                     return message.reply("I could not insert into the database!");
-                });    
-                console.log("Insert successful.");
-                return message.reply("you have been inserted successfully!");
+                }
+                if (!player) {
+                    console.log("No matches found. Inserting " + message.author.id.toString() + " from guild id " + message.guild.id.toString() + " into the database.");
                 
-            } else {
-                return message.reply("you are already in the database!");
-            }   
-        });     
-    }, 2000); 
+                    const newPlayer = new Player ({
+                        _id: mongoose.Types.ObjectId(),
+                        userId: authorId,
+                        serverId: authorServerId,
+                        battleNet: authorBtag,
+                        skillRating: authorSr
+                    });
+                
+                    newPlayer.save().catch(err => {
+                        console.error(err);
+                        return message.reply("I could not insert into the database!");
+                    });    
+                    console.log("Insert successful.");
+                    return message.reply("you have been inserted successfully!");
+                
+                } else {
+                    return message.reply("you are already in the database!");
+                }   
+            });
+        });
+        srFetch.catch((err) => {
+            if (err === "not placed") return message.reply("I could not find an SR! Is that account placed?");
+            if (err === "not found") return message.reply("I could not find an account! Please check your spelling.");
+        });
+    });
 };
 
 exports.help = {
