@@ -174,7 +174,8 @@ exports.run = async (client, message, args) => {
                     }
                 
                     console.log("Searching for matches in " + authorServerId.toString() + " between " + lowerBound.toString() + " and " + upperBound.toString() + ".");
-                    Player.find( { skillRating: { $gte: lowerBound, $lte: upperBound } , userId : { $ne: authorId } , serverId: authorServerId }, (err, players) => {
+                    Player.find( { skillRating: { $gte: lowerBound, $lte: upperBound } , userId : { $ne: authorId } , serverId: authorServerId }, null, 
+                        { $sort: { skillRating: 1 } }, (err, players) => {
                         if (err) {
                             console.error(err);
                             return message.reply("I could not read the database!");
