@@ -10,7 +10,7 @@ exports.run = async (client, message) => {
     
     let authorId = message.author.id;
     let profileUrl = "https://playoverwatch.com/en-us/career/pc/"
-    let authorSr, btag;
+    let btag;
     
     console.log("Searching for userid " + authorId.toString() + ".");
     Player.findOne( {userId: authorId} , 
@@ -41,8 +41,8 @@ exports.run = async (client, message) => {
                 const srFetch = new Promise((resolve, reject) => {
                     let $ = cheerio.load(body);
                     
-                    if ($('.u-align-center').first().text().includes("Not Found")) reject("not found");
-                    if (isNaN($('div .h5').first().text()) || !($('div .h5').first().text())) reject("not placed");
+                    if ($('.u-align-center').first().text().includes("Not Found")) reject("profile not found");
+                    if (isNaN($('div .h5').first().text()) || !($('div .h5').first().text())) reject("element not found");
                     let authorSr = $('div .h5').first().text();
                     resolve(authorSr);
                 });
@@ -74,8 +74,8 @@ exports.run = async (client, message) => {
                 });
 
                 srFetch.catch((err) => {
-                    if (err === "not placed") return message.reply("I could not find an SR! Is that account placed?");
-                     if (err === "not found") return message.reply("I could not find an account! Please check your spelling.");
+                    if (err === "element not found") return message.reply("I could not find an SR! Please ensure that your profile is set to public in your ingame settings and that your account has finished its placement matches this season.");
+                    if (err === "profile not found") return message.reply("I could not find an account! Please check your spelling.");
                 });
             });   
         }
@@ -85,6 +85,6 @@ exports.run = async (client, message) => {
 exports.help = {
     name: "update",
     usage: "o!update",
-    description: "Updates your SR in the database.",
+    description: "Updates your SR in the database. As of October 13th, 2018, I can no longer update private profiles.",
     serverRestriction: "none"
 }
