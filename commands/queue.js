@@ -68,7 +68,7 @@ exports.run = async (client, message, args) => {
                     if (!players[0]) {
                         return message.reply("I could not find anyone in the database that you can queue with!");
                     } else {
-                        let output = ("I found the following players you can queue with:\n");
+                        let output = ("I found the following players between " + lowerBound.toString() + " and " + upperBound.toString() + " you can queue with:\n");
                         for (let pl of players) {
                             output += pl.battleNet + ": " + pl.skillRating.toString() + " SR\n";
                         }
@@ -184,7 +184,7 @@ exports.run = async (client, message, args) => {
                         if (!players[0]) {
                             return message.reply("I could not find anyone in the database that you can queue with!");
                         } else {
-                            let output = ("I found the following players you can queue with:\n");
+                            let output = ("I found the following players between " + lowerBound.toString() + " and " + upperBound.toString() + " you can queue with:\n");
                             for (let pl of players) {
                                 output += pl.battleNet + ": " + pl.skillRating.toString() + " SR\n";
                             }
